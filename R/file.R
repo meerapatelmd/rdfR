@@ -1,8 +1,19 @@
-# The RDF class object *has* to be written in Turtle format or else
-# protege does not recognize it.
-
+#' @title
+#' Write RDF
+#'
+#' @description
+#' Writes RDF exclusively as a Turtle file because it is the only format that
+#' Protege properly loads when written via R.
+#'
+#' @seealso
+#'  \code{\link[cli]{character(0)}}
+#'  \code{\link[rdflib]{rdf_serialize}}
+#' @rdname write_rdf
+#' @export
+#' @importFrom cli cli_abort
+#' @importFrom rdflib rdf_serialize
 write_rdf <-
-  function(rdf_object,
+  function(rdf,
            doc) {
 
     if (class(rdf_object) != "rdf") {
@@ -16,6 +27,19 @@ write_rdf <-
     )
   }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname open_in_protege
+#' @export
 open_in_protege <-
   function(doc) {
     open_in_app <-
@@ -36,7 +60,22 @@ open_in_protege <-
                 file = doc)
   }
 
-# Assumed that any document must have at least 1 stored triplet
+#' @title
+#' Is the RDF File Empty?
+#' @description
+#' Check if a given file has 1 or more triplets.
+#' @param doc PARAM_DESCRIPTION
+#' @param format PARAM_DESCRIPTION, Default: c("rdfxml", "nquads", "ntriples", "turtle", "jsonld")
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname is_empty_document
+#' @export
 is_empty_document <-
   function(doc, format = c("rdfxml", "nquads", "ntriples", "turtle", "jsonld")) {
 
@@ -64,6 +103,22 @@ is_empty_document <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_parse}}
+#' @rdname read_rdf_all_fmts
+#' @export
+#' @importFrom rdflib rdf_parse
 read_rdf_all_fmts <-
   function(doc) {
 
@@ -92,6 +147,25 @@ read_rdf_all_fmts <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @param formats PARAM_DESCRIPTION, Default: c("rdfxml", "turtle")
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_parse}}
+#'  \code{\link[cli]{cli_alert}}
+#' @rdname read_rdf_fmts
+#' @export
+#' @importFrom rdflib rdf_parse
+#' @importFrom cli cli_alert_warning
 read_rdf_fmts <-
   function(doc,
            formats = c("rdfxml", "turtle")) {
@@ -128,6 +202,33 @@ read_rdf_fmts <-
 
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @param formats PARAM_DESCRIPTION, Default: c("rdfxml", "turtle")
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[purrr]{safely}},\code{\link[purrr]{map}}
+#'  \code{\link[tibble]{tibble}}
+#'  \code{\link[utils]{capture.output}}
+#'  \code{\link[huxtable]{huxtable}},\code{\link[huxtable]{themes}},\code{\link[huxtable]{na_string}},\code{\link[huxtable]{number_format}},\code{\link[huxtable]{fmt_pretty}}
+#'  \code{\link[cli]{character(0)}},\code{\link[cli]{cli_alert}}
+#'  \code{\link[rdflib]{rdf_parse}}
+#' @rdname read_rdf
+#' @export
+#' @importFrom purrr quietly map
+#' @importFrom tibble tibble
+#' @importFrom utils capture.output
+#' @importFrom huxtable hux theme_article set_na_string set_number_format fmt_pretty
+#' @importFrom cli cli_abort cli_alert_info cli_alert_success
+#' @importFrom rdflib rdf_parse
 read_rdf <-
   function(doc,
            formats = c("rdfxml", "turtle")) {
@@ -197,6 +298,26 @@ read_rdf <-
 
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[xfun]{file_ext}}
+#'  \code{\link[rdflib]{rdf_parse}}
+#'  \code{\link[cli]{cli_alert}}
+#' @rdname read_rdf2
+#' @export
+#' @importFrom xfun file_ext
+#' @importFrom rdflib rdf_parse
+#' @importFrom cli cli_alert_warning cli_alert_info cli_alert_success cli_alert_danger
 read_rdf2 <-
   function(doc) {
 

@@ -1,3 +1,16 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname is_id
+#' @export 
 is_id <-
   function(x) {
 
@@ -7,6 +20,25 @@ is_id <-
 
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[dplyr]{filter}},\code{\link[dplyr]{select}}
+#'  \code{\link[cli]{cli_alert}}
+#' @rdname label_to_id
+#' @export 
+#' @importFrom dplyr filter select
+#' @importFrom cli cli_alert_danger
 label_to_id <-
   function(x,
            rdf) {
@@ -39,6 +71,19 @@ label_to_id <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param x PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname id_if_label
+#' @export 
 id_if_label <-
   function(x) {
     if (!is_id(x)) {

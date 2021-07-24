@@ -1,8 +1,23 @@
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname initialize_blank_rdf
+#' @export
+#' @importFrom rdflib rdf_add rdf
 initialize_blank_rdf <-
   function() {
 
 
-    root_ontology <- rdf()
+    root_ontology <- rdflib::rdf()
 
     rdflib::rdf_add(
       rdf = root_ontology,
@@ -45,6 +60,27 @@ initialize_blank_rdf <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param name PARAM_DESCRIPTION
+#' @param base_uri PARAM_DESCRIPTION
+#' @param version PARAM_DESCRIPTION
+#' @param comment PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_add}}
+#'  \code{\link[glue]{glue}}
+#' @rdname initialize_rdf
+#' @export
+#' @importFrom rdflib rdf_add
+#' @importFrom glue glue
 initialize_rdf <-
   function(name,
            base_uri,
@@ -99,6 +135,34 @@ initialize_rdf <-
 
 
 
+#' @title
+#' Append AnnotationProperty
+#' @description
+#' `append_*` functions are to add an extension to the
+#' RDF structure (i.e. addition of Object Properties, Annotation Properties, and
+#' Data Properties) whereas `add_*` and `df_add_*` functions populate the RDF with
+#' triplets.
+#'
+#' @param rdf PARAM_DESCRIPTION
+#' @param base_uri PARAM_DESCRIPTION
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rlang]{list2}}
+#'  \code{\link[glue]{glue}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname append_annotation_properties
+#' @export
+#' @importFrom rlang list2
+#' @importFrom glue glue
+#' @importFrom rdflib rdf_add
 append_annotation_properties <-
   function(rdf,
            base_uri,
@@ -130,6 +194,24 @@ append_annotation_properties <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param class_id PARAM_DESCRIPTION
+#' @param class_label PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname add_class
+#' @export
+#' @importFrom rdflib rdf_add
 add_class <-
   function(rdf,
            class_id,
@@ -154,6 +236,27 @@ add_class <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param data PARAM_DESCRIPTION
+#' @param class_id_col PARAM_DESCRIPTION
+#' @param class_label_col PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[dplyr]{filter}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname df_add_classes
+#' @export
+#' @importFrom dplyr filter
+#' @importFrom rdflib rdf_add
 df_add_classes <-
   function(rdf,
            data,
@@ -207,6 +310,24 @@ df_add_classes <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param individual_id PARAM_DESCRIPTION
+#' @param individual_label PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname add_individual
+#' @export
+#' @importFrom rdflib rdf_add
 add_individual <-
   function(rdf,
            individual_id,
@@ -232,6 +353,27 @@ add_individual <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param data PARAM_DESCRIPTION
+#' @param individual_id_col PARAM_DESCRIPTION
+#' @param individual_label_col PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[dplyr]{filter}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname df_add_individuals
+#' @export
+#' @importFrom dplyr filter
+#' @importFrom rdflib rdf_add
 df_add_individuals <-
   function(rdf,
            data,
@@ -285,6 +427,26 @@ df_add_individuals <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param parent_class PARAM_DESCRIPTION
+#' @param child_class PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[purrr]{map}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname add_subclassof
+#' @export
+#' @importFrom purrr map
+#' @importFrom rdflib rdf_add
 add_subclassof <-
   function(rdf,
            parent_class,
@@ -307,6 +469,27 @@ add_subclassof <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param data PARAM_DESCRIPTION
+#' @param parent_class_id_col PARAM_DESCRIPTION
+#' @param child_class_id_col PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[dplyr]{filter}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname df_add_subclassof
+#' @export
+#' @importFrom dplyr filter
+#' @importFrom rdflib rdf_add
 df_add_subclassof <-
   function(rdf,
            data,
@@ -354,6 +537,26 @@ df_add_subclassof <-
 
 
 # Technically type
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param individual PARAM_DESCRIPTION
+#' @param class PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[purrr]{map}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname add_individual_class
+#' @export
+#' @importFrom purrr map
+#' @importFrom rdflib rdf_add
 add_individual_class <-
   function(rdf,
            individual,
@@ -378,6 +581,27 @@ add_individual_class <-
 
   }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param data PARAM_DESCRIPTION
+#' @param class_id_col PARAM_DESCRIPTION
+#' @param individual_id_col PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[dplyr]{filter}},\code{\link[dplyr]{select}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname df_add_individual_class
+#' @export
+#' @importFrom dplyr filter select
+#' @importFrom rdflib rdf_add
 df_add_individual_class <-
   function(rdf,
            data,
@@ -429,6 +653,27 @@ df_add_individual_class <-
 
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param entity PARAM_DESCRIPTION
+#' @param annotation_property PARAM_DESCRIPTION
+#' @param value PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[purrr]{map}}
+#'  \code{\link[rdflib]{rdf_add}}
+#' @rdname add_annotation_property_value
+#' @export
+#' @importFrom purrr map
+#' @importFrom rdflib rdf_add
 add_annotation_property_value <-
   function(rdf,
            entity,
@@ -451,6 +696,28 @@ add_annotation_property_value <-
   }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @param data PARAM_DESCRIPTION
+#' @param entity_col PARAM_DESCRIPTION
+#' @param annotation_property_label PARAM_DESCRIPTION
+#' @param value_col PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[cli]{cli_alert}}
+#'  \code{\link[dplyr]{filter}},\code{\link[dplyr]{select}}
+#' @rdname df_add_annotation_property_value
+#' @export
+#' @importFrom cli cli_abort
+#' @importFrom dplyr filter select
 df_add_annotation_property_value <-
   function(rdf,
            data,
@@ -466,7 +733,7 @@ df_add_annotation_property_value <-
 
 
     if (is.null(annotation_property_predicate)) {
-      cli::cli_alert_danger(text = "{annotation_property_label} does not exist.")
+      cli::cli_abort(text = "{annotation_property_label} does not exist.")
       stop(call. = FALSE)
     }
 
@@ -475,8 +742,7 @@ df_add_annotation_property_value <-
 
 
     if (length(annotation_property_predicate)>1) {
-      cli::cli_alert_danger("{annotation_property_label} is associated with {length(annotation_property_predicate)}: {annotation_property_predicate}.")
-      stop(call. = FALSE)
+      cli::cli_abort("{annotation_property_label} is associated with {length(annotation_property_predicate)}: {annotation_property_predicate}.")
     }
 
 
