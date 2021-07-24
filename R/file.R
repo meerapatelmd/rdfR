@@ -16,12 +16,12 @@ write_rdf <-
   function(rdf,
            doc) {
 
-    if (class(rdf_object) != "rdf") {
-      cli::cli_alert_danger("`rdf_object` is not rdf!")
+    if (class(rdf) != "rdf") {
+      cli::cli_alert_danger("Argument is not rdf!")
     }
 
     rdflib::rdf_serialize(
-      rdf = rdf_object,
+      rdf = rdf,
       doc = doc,
       format = "turtle"
     )
