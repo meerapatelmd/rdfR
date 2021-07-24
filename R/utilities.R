@@ -13,7 +13,7 @@ label_to_id <-
 
 
     id <-
-      get_label_map(doc = rdf) %>%
+      query_label_map(rdf = rdf) %>%
       dplyr::filter(label == x) %>%
       dplyr::select(id) %>%
       unlist() %>%

@@ -15,36 +15,33 @@ rdf_as_df <-
 
   }
 
-get_rdf_predicates <-
+read_predicates <-
   function(doc) {
-    if (class(doc) == "rdf") {
 
-      input_rdf <- doc
+      input_rdf <- read_rdf(doc = doc)
 
-    } else {
-      input_rdf <- rdflib::rdf_parse(doc = doc)
 
-    }
-
-    rdf_query(input_rdf, query = "SELECT DISTINCT ?predicate WHERE { ?subject ?predicate ?object .}")
+    rdflib::rdf_query(input_rdf, query = "SELECT DISTINCT ?predicate WHERE { ?subject ?predicate ?object .}")
 
   }
 
 
-get_annotation_predicates <-
+query_predicates <-
+  function(rdf) {
+
+        rdflib::rdf_query(input_rdf, query = "SELECT DISTINCT ?predicate WHERE { ?subject ?predicate ?object .}")
+
+  }
+
+
+
+read_annotation_predicates <-
   function(doc) {
 
-    if (class(doc) == "rdf") {
-
-      input_rdf <- doc
-
-    } else {
-      input_rdf <- rdflib::rdf_parse(doc = doc)
-
-    }
+      input_rdf <- read_rdf(doc = doc)
 
     annotation_properties <-
-    rdf_query(input_rdf, query = "SELECT DISTINCT ?id WHERE { ?id <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .}")
+    rdflib::rdf_query(input_rdf, query = "SELECT DISTINCT ?id WHERE { ?id <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .}")
 
 
     label_map <-
@@ -52,36 +49,21 @@ get_annotation_predicates <-
 
 
     annotation_properties %>%
-      left_join(label_map,
+      dplyr::left_join(label_map,
                 by = "id") %>%
       split(.$label) %>%
-      map(select, -label)
+      purrr::map(dplyr::select, -label)
 
 
   }
 
 
-get_prefixes <-
-  function(...) {
-    rlang::list2(owl  = "http://www.w3.org/2002/07/owl#",
-                 rdfs = "http://www.w3.org/2000/01/rdf-schema#",
-                 rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                 ...)
-  }
-
-
-get_label_map <-
+read_label_map <-
   function(doc) {
 
-    if (class(doc) == "rdf") {
+    input_rdf <- read_rdf(doc = doc)
 
-      input_rdf <- doc
-
-    } else {
-    input_rdf <- rdflib::rdf_parse(doc = doc)
-
-    }
-    rdf_query(
+    rdflib::rdf_query(
       input_rdf,
       query =
         "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -90,13 +72,27 @@ get_label_map <-
 
   }
 
+
+query_label_map <-
+  function(rdf) {
+    rdflib::rdf_query(
+      rdf,
+      query =
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT DISTINCT ?id ?label WHERE { ?id rdfs:label ?label .}")
+
+  }
+
 map_to_labels <-
-  function(x,
+  function(data,
            ...,
-           doc) {
+           rdf) {
+
+
+    x <- data
 
     label_map <-
-      get_label_map(doc = doc)
+      query_label_map(rdf = rdf)
 
 
     if (missing(...)) {
@@ -140,41 +136,37 @@ map_to_labels <-
 
 
 search_by_predicate <-
-  function(pred_label,
-           predicate_uri,
-           doc) {
+  function(predicate,
+           rdf_or_doc) {
 
-    input_rdf <- rdflib::rdf_parse(doc = doc)
+    if (class(rdf_or_doc) != "rdf") {
 
-    if (!missing(pred_label)) {
-      predicate_uri <-
-        get_rdf_predicates(doc = doc) %>%
-        map_to_labels(doc = doc) %>%
-        dplyr::filter(predicate_label == pred_label) %>%
-        select(predicate) %>%
-        unlist() %>%
-        unname()
+     rdf <- read_rdf(doc = doc)
 
-      cat(predicate_uri)
     }
 
-    rdf_query(input_rdf,
+    predicate_id <- id_if_label(predicate)
+
+    rdflib::rdf_query(rdf,
               query = sprintf(
                 "SELECT ?subject ?object
                 WHERE { ?subject <%s> ?object .}",
-                predicate_uri))
+                predicate_id))
 
   }
 
-get_rdf_taxonomy <-
+
+
+
+read_rdf_taxonomy <-
   function(doc) {
 
-    input_rdf <- rdflib::rdf_parse(doc = doc)
-    tax <- rdf_query(input_rdf, query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?parent ?child WHERE { ?child rdfs:subClassOf ?parent .}")
+    input_rdf <- read_rdf(doc = doc)
+    tax <- rdflib::rdf_query(input_rdf, query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?parent ?child WHERE { ?child rdfs:subClassOf ?parent .}")
     root <-
       tax %>%
       dplyr::filter(!(parent %in% tax$child)) %>%
-      distinct()
+      dplyr::distinct()
 
     output <- list()
     output[[1]] <- root
@@ -183,8 +175,8 @@ get_rdf_taxonomy <-
 
       x <-
         output[[i-1]] %>%
-        distinct(parent = child) %>%
-        inner_join(tax,
+        dplyr::distinct(parent = child) %>%
+        dplyr::inner_join(tax,
                    by = "parent")
 
       if (nrow(x)) {
@@ -211,25 +203,68 @@ get_rdf_taxonomy <-
   }
 
 
-get_pivoted_rdf_taxonomy <-
+query_rdf_taxonomy <-
+  function(rdf) {
+    tax <- rdflib::rdf_query(rdf, query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> SELECT ?parent ?child WHERE { ?child rdfs:subClassOf ?parent .}")
+    root <-
+      tax %>%
+      dplyr::filter(!(parent %in% tax$child)) %>%
+      dplyr::distinct()
+
+    output <- list()
+    output[[1]] <- root
+
+    for (i in 2:100) {
+
+      x <-
+        output[[i-1]] %>%
+        dplyr::distinct(parent = child) %>%
+        dplyr::inner_join(tax,
+                          by = "parent")
+
+      if (nrow(x)) {
+        output[[length(output)+1]] <- x
+      } else {
+        break
+      }
+
+
+    }
+
+
+    # output[[1]] <-
+    #   output[[1]] %>%
+    #   rename(root = parent)
+    #
+    #
+    # output[[length(output)]] <-
+    #   output[[length(output)]] %>%
+    #   rename(leaf = child)
+
+    output
+
+  }
+
+
+read_pivoted_rdf_taxonomy <-
   function(doc) {
 
     rdf_taxonomy_list <-
-      get_rdf_taxonomy(doc)
+      read_rdf_taxonomy(doc = doc)
 
 
     out <-
       rdf_taxonomy_list[[1]] %>%
-      select(root = parent,
+      dplyr::select(root = parent,
              child)
 
     for (i in 2:(length(rdf_taxonomy_list))) {
 
       out <-
         out %>%
-        left_join(rdf_taxonomy_list[[i]],
+        dplyr::left_join(rdf_taxonomy_list[[i]],
                   by = c("child" = "parent")) %>%
-        rename(!!sym(glue("level_{i-1}")) := child,
+        dplyr::rename(!!dplyr::sym(glue::glue("level_{i-1}")) := child,
                child = child.y)
 
 
@@ -237,7 +272,7 @@ get_pivoted_rdf_taxonomy <-
 
     out <-
       out %>%
-      rename(!!sym(glue("level_{i}")) := child)
+      dplyr::rename(!!dplyr::sym(glue::glue("level_{i}")) := child)
     #
     # out[[length(rdf_taxonomy_list)]] <-
     #   rdf_taxonomy_list[[length(rdf_taxonomy_list)]]
@@ -279,7 +314,7 @@ write_rdf <-
       cli::cli_abort("`rdf_object` is not rdf!")
     }
 
-    rdf_serialize(
+    rdflib::rdf_serialize(
       rdf = rdf_object,
       doc = doc,
       format = "turtle"
@@ -331,7 +366,7 @@ read_rdf_all_fmts <-
 
       output[[format]] <-
         tryCatch(
-          rdf_parse(doc = doc,
+          rdflib::rdf_parse(doc = doc,
                     format = format),
           error = function(e) NULL
         )
@@ -357,7 +392,7 @@ read_rdf_fmts <-
 
       output[[format]] <-
         tryCatch(
-          rdf_parse(doc = doc,
+          rdflib::rdf_parse(doc = doc,
                     format = format),
           error = function(e) NULL
         )
@@ -440,7 +475,7 @@ read_rdf <-
     on.exit(
       cli::cli_alert_success("Parsing {format}... complete!")
     )
-    rdf_parse(doc = doc,
+    rdflib::rdf_parse(doc = doc,
               format = format)
 
   }
@@ -469,7 +504,7 @@ read_rdf2 <-
                            format = format)) {
 
       return(
-        rdf_parse(doc = doc,
+        rdflib::rdf_parse(doc = doc,
                   format = format))
 
 
@@ -497,7 +532,7 @@ read_rdf2 <-
           cli::cli_alert_success("Trying format `{format}`... success!\n")
 
           return(
-            rdf_parse(doc = doc,
+            rdflib::rdf_parse(doc = doc,
                       format = format)
           )
 
