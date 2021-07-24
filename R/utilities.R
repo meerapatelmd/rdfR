@@ -3,14 +3,14 @@
 #' @param x PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname is_id
-#' @export 
+#' @export
 is_id <-
   function(x) {
 
@@ -26,17 +26,17 @@ is_id <-
 #' @param rdf PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
+#' @seealso
 #'  \code{\link[dplyr]{filter}},\code{\link[dplyr]{select}}
 #'  \code{\link[cli]{cli_alert}}
 #' @rdname label_to_id
-#' @export 
+#' @export
 #' @importFrom dplyr filter select
 #' @importFrom cli cli_alert_danger
 label_to_id <-
@@ -76,19 +76,21 @@ label_to_id <-
 #' @param x PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
 #' @rdname id_if_label
-#' @export 
+#' @export
 id_if_label <-
-  function(x) {
+  function(x,
+           rdf) {
     if (!is_id(x)) {
 
-      label_to_id(x)
+      label_to_id(x,
+                  rdf = rdf)
 
     } else {
       x

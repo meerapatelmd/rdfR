@@ -684,7 +684,8 @@ add_annotation_property_value <-
     args <-
       list(entity = entity,
            annotation_property = annotation_property) %>%
-      purrr::map(id_if_label)
+      purrr::map(id_if_label,
+                 rdf = rdf)
 
 
     rdflib::rdf_add(

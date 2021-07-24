@@ -4,7 +4,7 @@
 \alias{id_if_label}
 \title{FUNCTION_TITLE}
 \usage{
-id_if_label(x)
+id_if_label(x, rdf)
 }
 \arguments{
 \item{x}{PARAM_DESCRIPTION}
