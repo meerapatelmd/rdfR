@@ -716,7 +716,7 @@ add_annotation_property_value <-
 #'  \code{\link[dplyr]{filter}},\code{\link[dplyr]{select}}
 #' @rdname df_add_annotation_property_value
 #' @export
-#' @importFrom cli cli_abort
+#' @importFrom cli cli_alert_danger
 #' @importFrom dplyr filter select
 df_add_annotation_property_value <-
   function(rdf,
@@ -733,7 +733,7 @@ df_add_annotation_property_value <-
 
 
     if (is.null(annotation_property_predicate)) {
-      cli::cli_abort(text = "{annotation_property_label} does not exist.")
+      cli::cli_alert_danger(text = "{annotation_property_label} does not exist.")
       stop(call. = FALSE)
     }
 
@@ -742,7 +742,7 @@ df_add_annotation_property_value <-
 
 
     if (length(annotation_property_predicate)>1) {
-      cli::cli_abort("{annotation_property_label} is associated with {length(annotation_property_predicate)}: {annotation_property_predicate}.")
+      cli::cli_alert_danger("{annotation_property_label} is associated with {length(annotation_property_predicate)}: {annotation_property_predicate}.")
     }
 
 

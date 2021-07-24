@@ -10,14 +10,14 @@
 #'  \code{\link[rdflib]{rdf_serialize}}
 #' @rdname write_rdf
 #' @export
-#' @importFrom cli cli_abort
+#' @importFrom cli cli_alert_danger
 #' @importFrom rdflib rdf_serialize
 write_rdf <-
   function(rdf,
            doc) {
 
     if (class(rdf_object) != "rdf") {
-      cli::cli_abort("`rdf_object` is not rdf!")
+      cli::cli_alert_danger("`rdf_object` is not rdf!")
     }
 
     rdflib::rdf_serialize(
@@ -227,7 +227,7 @@ read_rdf_fmts <-
 #' @importFrom tibble tibble
 #' @importFrom utils capture.output
 #' @importFrom huxtable hux theme_article set_na_string set_number_format fmt_pretty
-#' @importFrom cli cli_abort cli_alert_info cli_alert_success
+#' @importFrom cli cli_alert_danger cli_alert_info cli_alert_success
 #' @importFrom rdflib rdf_parse
 read_rdf <-
   function(doc,
@@ -270,7 +270,7 @@ read_rdf <-
 
     # If the maximum format returns 0 rows, meaning nothing parsed
     if (max_format == 0) {
-      cli::cli_abort("0 triplets were returned for formats: {formats}.")
+      cli::cli_alert_danger("0 triplets were returned for formats: {formats}.")
     }
 
 
