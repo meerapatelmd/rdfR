@@ -1,0 +1,24 @@
+@base <localhost://> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://test>
+    a <http://www.w3.org/2002/07/owl#Ontology> ;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "This is a test." ;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Meera's Test Ontology" ;
+    <http://www.w3.org/2002/07/owl#versionIRI> <http://test/1.0> .
+
+[]
+    a <http://www.w3.org/2002/07/owl#Ontology> .
+
+[]
+    a <http://www.w3.org/2002/07/owl#Class> .
+
+[]
+    a <http://www.w3.org/2002/07/owl#NamedIndividual> .
+
+[]
+    a <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+
+[]
+    rdf:predicate <http://www.w3.org/2000/01/rdf-schema#subClassOf> .
+
