@@ -43,6 +43,71 @@ rdf_as_df <-
 
   }
 
+
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname read_base_uri
+#' @export
+
+read_base_uri <-
+  function(doc) {
+
+
+    rdf <-
+      read_rdf(doc = doc)
+
+    query_base_uri(rdf = rdf)
+
+  }
+
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_query}}
+#'  \code{\link[dplyr]{filter_all}},\code{\link[dplyr]{vars}}
+#' @rdname query_base_uri
+#' @export
+#' @importFrom rdflib rdf_query
+#' @importFrom dplyr filter_at vars
+
+query_base_uri <-
+  function(rdf) {
+
+    rdflib::rdf_query(
+      rdf = rdf,
+      query =
+        "
+        SELECT ?id
+        WHERE { ?id
+                <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+                <http://www.w3.org/2002/07/owl#Ontology> .}") %>%
+      dplyr::filter_at(dplyr::vars(id),
+                       ~grepl(pattern = "^http://",
+                              .)) %>%
+      unlist() %>%
+      unname()
+
+
+  }
+
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
 #' @param doc PARAM_DESCRIPTION
@@ -137,6 +202,64 @@ read_annotation_predicates <-
 
   }
 
+
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param doc PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_query}}
+#' @rdname read_type_map
+#' @export
+#' @importFrom rdflib rdf_query
+read_type_map <-
+  function(doc) {
+
+    input_rdf <- read_rdf(doc = doc)
+
+    rdflib::rdf_query(
+      input_rdf,
+      query =
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT DISTINCT ?id ?type WHERE { ?id rdfs:type ?type .}")
+
+
+  }
+
+
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_query}}
+#' @rdname query_type_map
+#' @export
+#' @importFrom rdflib rdf_query
+query_type_map <-
+  function(rdf) {
+
+    rdflib::rdf_query(
+      rdf,
+      query =
+        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+      SELECT DISTINCT ?id ?type WHERE { ?id rdf:type ?type .}")
+
+
+  }
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
