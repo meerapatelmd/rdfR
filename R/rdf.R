@@ -771,7 +771,7 @@ df_add_annotation_property_value <-
         unlist() %>%
         unname()
 
-      rdf_add_annotation_property_value(
+      add_annotation_property_value(
         rdf = rdf,
         entity = entity_id,
         annotation_property = annotation_property_predicate,
