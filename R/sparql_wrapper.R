@@ -203,6 +203,52 @@ read_annotation_predicates <-
   }
 
 
+
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param rdf PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[rdflib]{rdf_query}}
+#'  \code{\link[dplyr]{mutate-joins}},\code{\link[dplyr]{select}}
+#'  \code{\link[purrr]{map}}
+#' @rdname query_annotation_predicates
+#' @export
+#' @importFrom rdflib rdf_query
+#' @importFrom dplyr left_join select
+#' @importFrom purrr map
+
+query_annotation_predicates <-
+  function(rdf) {
+
+
+    annotation_properties <-
+      rdflib::rdf_query(rdf, query = "SELECT DISTINCT ?id WHERE { ?id <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .}")
+
+
+    label_map <-
+      query_label_map(rdf = rdf)
+
+
+    annotation_properties %>%
+      dplyr::left_join(label_map,
+                       by = "id") %>%
+      split(.$label) %>%
+      purrr::map(dplyr::select, -label)
+
+
+  }
+
+
+
+
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
 #' @param doc PARAM_DESCRIPTION
