@@ -728,7 +728,7 @@ df_add_annotation_property_value <-
 
 
     annotation_property_predicates <-
-      get_annotation_predicates(doc = rdf)
+      query_annotation_predicates(rdf = rdf)
     annotation_property_predicate <-
       annotation_property_predicates[[annotation_property_label]]
 
