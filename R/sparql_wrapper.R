@@ -125,7 +125,7 @@ read_annotation_predicates <-
 
 
     label_map <-
-      get_label_map(doc = doc)
+      read_label_map(doc = doc)
 
 
     annotation_properties %>%
