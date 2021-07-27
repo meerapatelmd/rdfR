@@ -717,6 +717,7 @@ df_add_individual_class <-
 #' @export
 #' @importFrom purrr map
 #' @importFrom rdflib rdf_add
+
 add_annotation_property_value <-
   function(rdf,
            entity,
@@ -762,6 +763,8 @@ add_annotation_property_value <-
 #' @export
 #' @importFrom cli cli_alert_danger
 #' @importFrom dplyr filter select
+#' @import cli
+
 df_add_annotation_property_value <-
   function(rdf,
            data,
@@ -789,6 +792,15 @@ df_add_annotation_property_value <-
       cli::cli_alert_danger("{annotation_property_label} is associated with {length(annotation_property_predicate)}: {annotation_property_predicate}.")
     }
 
+
+    n <- nrow(data)
+    i <- 0
+    entity <- "entity"
+    annotation_property_label <- "annotation_property_label"
+    value <- "value"
+    cli::cli_alert_info("Adding {n} annotation property{?ies}...")
+    cli::cli_progress_step("({i}/{n}) entity:{entity}-{annotation_property_label}-{value}",
+                           spinner = TRUE)
 
     for (i in 1:nrow(data)) {
 
@@ -820,6 +832,9 @@ df_add_annotation_property_value <-
         annotation_property = annotation_property_predicate,
         value = value
       )
+
+
+      cli::cli_progress_update()
 
 
     }

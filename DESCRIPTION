@@ -1,9 +1,9 @@
 Package: rdfR
-Title: What the Package Does (One Line, Title Case)
+Title: Read, Write, and Query RDF/XML Files  
 Version: 0.0.1
 Authors@R (parsed):
     * Meera Patel, MD <patelmeeray@gmail.com> [aut, cre] (<https://orcid.org/0000-0002-3401-3948>)
-Description: What the package does (one paragraph).
+Description: Create RDF objects from tabular data or a list of triplets, read rdfxml or turtle files, and run basic SPARQL queries against the RDF and RDFS infrastructure.  
 Imports: 
     cli,
     dplyr,
