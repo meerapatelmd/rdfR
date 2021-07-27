@@ -235,6 +235,21 @@ add_class <-
 
   }
 
+library(cli)
+clean <- function() {
+  cli_progress_bar("{Sys.time()} Cleaning data", total = 100)
+  for (i in 1:100) {
+    Sys.sleep(5/100)
+    cli_progress_update()
+  }
+  cli_progress_done()
+}
+clean()
+
+
+
+
+
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
@@ -257,6 +272,7 @@ add_class <-
 #' @export
 #' @importFrom dplyr filter
 #' @importFrom rdflib rdf_add
+#' @import cli
 df_add_classes <-
   function(rdf,
            data,
@@ -269,6 +285,13 @@ df_add_classes <-
       select({{ class_id_col }},
              {{ class_label_col }}) %>%
       distinct()
+
+    n <- nrow(data)
+    i <- 0
+    class_label <- "class_label"
+    cli::cli_alert_info("Adding {n} class{?es}...")
+    cli::cli_progress_step("{class_label} ({i}/{n})",
+                      spinner = TRUE)
 
 
     for (i in 1:nrow(data)) {
@@ -301,6 +324,9 @@ df_add_classes <-
         predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
         object    = "http://www.w3.org/2002/07/owl#Class"
       )
+
+      Sys.sleep(0.05)
+      cli::cli_progress_update()
 
 
 
@@ -374,6 +400,8 @@ add_individual <-
 #' @export
 #' @importFrom dplyr filter
 #' @importFrom rdflib rdf_add
+#' @import cli
+
 df_add_individuals <-
   function(rdf,
            data,
@@ -386,6 +414,13 @@ df_add_individuals <-
       select({{ individual_id_col }},
              {{ individual_label_col }}) %>%
       distinct()
+
+    n <- nrow(data)
+    i <- 0
+    individual_label <- "individual_label"
+    cli::cli_alert_info("Adding {n} individual{?s}...")
+    cli::cli_progress_step("{individual_label} ({i}/{n})",
+                      spinner = TRUE)
 
 
     for (i in 1:nrow(data)) {
@@ -419,6 +454,7 @@ df_add_individuals <-
         object    = "http://www.w3.org/2002/07/owl#NamedIndividual"
       )
 
+      cli::cli_progress_update()
 
 
     }
@@ -490,6 +526,8 @@ add_subclassof <-
 #' @export
 #' @importFrom dplyr filter
 #' @importFrom rdflib rdf_add
+#' @import cli
+
 df_add_subclassof <-
   function(rdf,
            data,
@@ -501,6 +539,14 @@ df_add_subclassof <-
       select({{ parent_class_id_col }},
              {{ child_class_id_col }}) %>%
       distinct()
+
+    n <- nrow(data)
+    i <- 0
+    child <- "child"
+    parent <- "parent"
+    cli::cli_alert_info("Adding {n} parent-child relationship{?s}...")
+    cli::cli_progress_step("parent:{parent} --> child:{child} ({i}/{n})",
+                           spinner = TRUE)
 
 
     for (i in 1:nrow(data)) {
@@ -527,6 +573,7 @@ df_add_subclassof <-
         object    = parent
       )
 
+      cli::cli_progress_update()
 
     }
 
@@ -557,6 +604,7 @@ df_add_subclassof <-
 #' @export
 #' @importFrom purrr map
 #' @importFrom rdflib rdf_add
+
 add_individual_class <-
   function(rdf,
            individual,
@@ -602,6 +650,8 @@ add_individual_class <-
 #' @export
 #' @importFrom dplyr filter select
 #' @importFrom rdflib rdf_add
+#' @import cli
+
 df_add_individual_class <-
   function(rdf,
            data,
@@ -614,6 +664,14 @@ df_add_individual_class <-
       select({{ class_id_col }},
              {{ individual_id_col }}) %>%
       distinct()
+
+    n <- nrow(data)
+    i <- 0
+    individual <- "individual"
+    class <- "class"
+    cli::cli_alert_info("Adding {n} class-individual relationship{?s}...")
+    cli::cli_progress_step("class:{class} --> individual:{individual} ({i}/{n})",
+                           spinner = TRUE)
 
 
     for (i in 1:nrow(data)) {
@@ -641,7 +699,7 @@ df_add_individual_class <-
         object    = class
       )
 
-
+    cli::cli_progress_update()
 
     }
 
