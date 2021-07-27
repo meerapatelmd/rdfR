@@ -235,21 +235,6 @@ add_class <-
 
   }
 
-library(cli)
-clean <- function() {
-  cli_progress_bar("{Sys.time()} Cleaning data", total = 100)
-  for (i in 1:100) {
-    Sys.sleep(5/100)
-    cli_progress_update()
-  }
-  cli_progress_done()
-}
-clean()
-
-
-
-
-
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
