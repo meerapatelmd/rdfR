@@ -275,7 +275,7 @@ df_add_classes <-
     i <- 0
     class_label <- "class_label"
     cli::cli_alert_info("Adding {n} class{?es}...")
-    cli::cli_progress_step("{class_label} ({i}/{n})",
+    cli::cli_progress_step("({i}/{n}) {class_label}",
                       spinner = TRUE)
 
 
@@ -404,7 +404,7 @@ df_add_individuals <-
     i <- 0
     individual_label <- "individual_label"
     cli::cli_alert_info("Adding {n} individual{?s}...")
-    cli::cli_progress_step("{individual_label} ({i}/{n})",
+    cli::cli_progress_step("({i}/{n}) {individual_label}",
                       spinner = TRUE)
 
 
@@ -530,7 +530,7 @@ df_add_subclassof <-
     child <- "child"
     parent <- "parent"
     cli::cli_alert_info("Adding {n} parent-child relationship{?s}...")
-    cli::cli_progress_step("parent:{parent} --> child:{child} ({i}/{n})",
+    cli::cli_progress_step("({i}/{n}) parent:{parent} --> child:{child}",
                            spinner = TRUE)
 
 
@@ -655,7 +655,7 @@ df_add_individual_class <-
     individual <- "individual"
     class <- "class"
     cli::cli_alert_info("Adding {n} class-individual relationship{?s}...")
-    cli::cli_progress_step("class:{class} --> individual:{individual} ({i}/{n})",
+    cli::cli_progress_step("({i}/{n}) class:{class} --> individual:{individual}",
                            spinner = TRUE)
 
 
