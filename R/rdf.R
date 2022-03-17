@@ -798,7 +798,7 @@ df_add_annotation_property_value <-
     entity <- "entity"
     annotation_property_label <- "annotation_property_label"
     value <- "value"
-    cli::cli_alert_info("Adding {n} annotation property{?ies}...")
+    cli::cli_alert_info("Adding {n} annotation propert{?y/ies}...")
     cli::cli_progress_step("({i}/{n}) entity:{entity}-{annotation_property_label}-{value}",
                            spinner = TRUE)
 
